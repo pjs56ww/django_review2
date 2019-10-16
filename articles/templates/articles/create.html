@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %} Article::Create{% endblock title %}
+
+{% block container %}
+
+<form method="post" action="{% url 'articles:create' %}"> 
+  {% csrf_token %}
+  {% comment %} action url이 현재 url이 동일하면 생략하기도 한다. {% endcomment %}
+  
+  {{ form.as_p }}
+  <button type="submit">생성하기</button>
+</form>
+{% endblock container %}

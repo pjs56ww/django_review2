@@ -1,0 +1,24 @@
+- model: articles.article
+  pk: 1
+  fields:
+    title: "\uCCAB\uBC88\uC9F8 \uC544\uD2F0\uD074"
+    content: '1234'
+    content2: '1234'
+    created_at: 2019-10-16 01:24:53.413357+00:00
+    updated_at: 2019-10-16 07:31:30.654366+00:00
+- model: articles.article
+  pk: 3
+  fields:
+    title: aaaa
+    content: aaaa
+    content2: aaaa
+    created_at: 2019-10-16 06:32:43.813852+00:00
+    updated_at: 2019-10-16 06:32:43.813852+00:00
+- model: articles.article
+  pk: 4
+  fields:
+    title: asdfas
+    content: asdfasdf
+    content2: asdfasdfasdf
+    created_at: 2019-10-16 07:09:30.509133+00:00
+    updated_at: 2019-10-16 07:09:30.509133+00:00
