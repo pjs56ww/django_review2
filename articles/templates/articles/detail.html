@@ -14,4 +14,24 @@
 </form>
 <p>{{ article.content }}</p>
 
+<br>
+<hr>
+<br>
+<h3>Comment</h3>
+<form action="{% url 'articles:create_com' article.pk %}" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">[작성하기]</button>
+</form>
+<ul>
+{% for comment in comments %}
+  
+  <form action="{% url 'articles:comments_delete' article.pk comment.pk %}" method="post">
+    {% csrf_token %}
+    <span>{{ comment.content }} - {{ comment.created_at }}</span>
+    <button type="submit">[삭제]</button>
+  </form>
+  
+{% endfor %}
+</ul>
 {% endblock container %}

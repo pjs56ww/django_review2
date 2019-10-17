@@ -22,3 +22,12 @@ class Person(models.Model):
     age = models.IntegerField(
         validators=[MinValueValidator(19, message='미성년자는 노노')]
     )
+
+
+class Comment(models.Model):
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    article = models.ForeignKey(Article, related_name='comments', on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('-pk', )
