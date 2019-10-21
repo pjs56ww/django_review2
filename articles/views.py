@@ -17,7 +17,7 @@ def detail(request, article_pk):
     # 사용자가 url 에 적어보낸 article_pk 를 통해 디테일 페이지를 보여준다.
     # Article.objects.get(pk=article_pk) => 방법1
     article = get_object_or_404(Article, pk=article_pk)
-    form = CommentForm(request.POST)
+    form = CommentForm()
     comments = Comment.objects.all()
     context = {'article': article, 'form': form, 'comments': comments}
     return render(request, 'articles/detail.html', context)
@@ -45,7 +45,7 @@ def update(request, article_pk):
         form = ArticleForm(request.POST, instance=article)
         if form.is_valid():
             form.save()
-            return redirect('articles:detail', article)
+            return redirect('articles:detail', article_pk)
     else:  # GET method
         form = ArticleForm(instance=article)
     context = {'form': form}
@@ -63,7 +63,6 @@ def delete(request, article_pk):
 
 @require_POST
 def create_com(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
     form = CommentForm(request.POST)
     if form.is_valid():
         comment = form.save(commit=False)  # 데이터베이스에는 적용시키지 마라
@@ -77,4 +76,4 @@ def comments_delete(request, article_pk, comment_pk):
     comment = get_object_or_404(Comment, pk=comment_pk)
     comment.delete()
 
-    return redirect('articles:detail')
+    return redirect('articles:detail', article_pk)

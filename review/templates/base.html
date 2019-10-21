@@ -9,6 +9,10 @@
 <body>
   <header>
     <h1>저희 페이지 오신걸 환영합니다.</h1>
+    <p>
+      <span>Hello, {{ user.username }}</span>
+      <a href="{% url 'accounts:logout' %}">[로그아웃]</a>
+    </p>
   </header>
   <a href="{% url 'articles:index' %}">[목록]</a>
   {% block container %}
