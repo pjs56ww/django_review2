@@ -4,7 +4,7 @@
 
 {% block container %}
 
-<form method="post" action="{% url 'articles:create' article=article%}"> 
+<form method="post"> 
   {% csrf_token %}
   {% comment %} action url이 현재 url이 동일하면 생략하기도 한다. {% endcomment %}
   

@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article, Comment
 from django.views.decorators.http import require_POST, require_GET
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from .models import Article, Comment
 from .forms import ArticleForm, CommentForm
-from IPython import embed
 
 
-@require_GET
+
+@require_GET  
 def index(request):
     articles = Article.objects.all()
     context = {'articles': articles}
@@ -21,8 +23,10 @@ def detail(request, article_pk):
     comments = Comment.objects.all()
     context = {'article': article, 'form': form, 'comments': comments}
     return render(request, 'articles/detail.html', context)
+    
 
-
+@login_required  # ==> /accounts/login/  으로 보내줌, 만약 url을 다른 방식으로 설정했으면 쟝고 세팅을 바꿔줘야함 @login_required(login_url='/accounts/login/')
+# GET 요청으로 사용되는 곳만 사용할 수 있다.
 # Create your views here.
 def create(request):
     if request.method == 'POST':
@@ -39,6 +43,7 @@ def create(request):
     return render(request, 'articles/create.html', context)
 
 
+@login_required
 def update(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     if request.method == 'POST':
@@ -54,26 +59,31 @@ def update(request, article_pk):
 
 @require_POST
 def delete(request, article_pk):
-    # article_pk에 맞는 article 을 꺼낸다.
-    # 삭제한다.
-    article = get_object_or_404(Article, pk=article_pk)
-    article.delete()
+    if request.user.is_authenticated:
+
+        # article_pk에 맞는 article 을 꺼낸다.
+        # 삭제한다.
+        article = get_object_or_404(Article, pk=article_pk)
+        article.delete()
     return redirect('articles:index')
 
 
 @require_POST
 def create_com(request, article_pk):
-    form = CommentForm(request.POST)
-    if form.is_valid():
-        comment = form.save(commit=False)  # 데이터베이스에는 적용시키지 마라
-        comment.article_id = article_pk
-        form.save()
+    if request.user.is_authenticated:
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)  # 데이터베이스에는 적용시키지 마라
+            comment.article_id = article_pk
+            form.save()
     return redirect('articles:detail', article_pk)
 
 
 @require_POST
 def comments_delete(request, article_pk, comment_pk):
-    comment = get_object_or_404(Comment, pk=comment_pk)
-    comment.delete()
+    if request.user.is_authenticated:
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        comment.delete()
+        return redirect('articles:detail', article_pk)
+    return HttpResponse('You are Unauthorized', status=401)
 
-    return redirect('articles:detail', article_pk)
