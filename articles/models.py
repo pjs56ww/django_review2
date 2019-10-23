@@ -3,6 +3,7 @@ from django.core.validators import EmailValidator, MinValueValidator
 from django.conf import settings
 
 # Create your models here.
+# article.liked_users.all()
 class Article(models.Model):
     title = models.CharField(max_length=20)
     content = models.TextField()
@@ -13,6 +14,11 @@ class Article(models.Model):
     # comment.article
     # article.comment_set.all()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='users')  # models.py 에서만 이렇게 가져오고 나머지는 form.py 문법을 통해 가져온다. => django 실행 순서와 관련있다.
+    liked_users = models.ManyToManyField( # article.liked_users.all() => 아티클을 좋아하는 모든 유저
+        settings.AUTH_USER_MODEL,
+        related_name='liked_articles', # user.liked_articles.all() => 유저가 좋아하는 모든 아티클
+    )
+
 
     class Meta:
         ordering = ('-pk', )

@@ -8,6 +8,20 @@
 <p>{{ article.created_at }}</p>
 <p>작성자: {{ article.user }}</p>
 <hr>
+<p>{{ article.content }}</p>
+<a href="{% url 'articles:like' article.pk %}">
+  {% if user in article.liked_users.all %}
+    <i class="fas fa-heart fa-lg" style="color: red"></i>
+
+  {% else %}
+    <i class="far fa-heart fa-lg" style="color: red"></i>
+
+  {% endif %}
+</a>
+<span>{{ article.liked_users.all | length }} 명이 이 글을 좋아합니다.</span>
+
+<a href=""></a>
+<br>
 
 {% if article.user == request.user %}
   <a href="{% url 'articles:update' article.pk %}">[수정하기]</a>
@@ -16,7 +30,6 @@
     <button type="submit">[삭제하기]</button>
   </form>
 {% endif %}
-<p>{{ article.content }}</p>
 
 <br>
 <hr>
@@ -41,8 +54,12 @@
       <button type="submit">[삭제]</button>
       {% endif %}
     </form>
-  
+    
+
   
 {% endfor %}
 </ul>
+
+{% include 'articles/_follow.html' %}
+
 {% endblock container %}

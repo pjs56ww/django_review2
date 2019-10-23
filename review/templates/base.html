@@ -10,9 +10,22 @@
   <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-grid.min.css' %}">
   <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
   
+  <!doctype html>
+  <html>
+    <head>
+      <!-- Place your kit's code here -->
+      <script src="https://kit.fontawesome.com/f0508c926b.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+      <!-- Ready to use Font Awesome. Activate interlock. Dynotherms - connected. Infracells - up. Icons are go! -->
+    </body>
+  </html>
+
   <title>{% block title %}{% endblock title %}</title>
 </head>
 <body>
+<div class="container">
   <header>
     <h1>저희 페이지 오신걸 환영합니다.</h1>
     
@@ -36,10 +49,19 @@
       
     </p>
   </header>
+
   <a href="{% url 'articles:index' %}">[목록]</a>
   {% block container %}
+
+  
+  <div class="jumbotron text-center text-white bg-dark">
+  
+
+  </div>
+
   <script src="http://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   {% endblock container %}
+  </div>
 </body>
 </html>
